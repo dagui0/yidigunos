@@ -25,43 +25,24 @@
 
 ### 호스트 시스템
 
-* Hardware: MacBook Pro 16" 2019
-  * CPU: Intel(R) Core(TM) i9-9980HK (8 cores)
-  * RAM: 32 GiB
-* OS: macOS Sequoia(15.x)
-  * Xcode 16.1 (clang 1600.0.26.4)
-  * e2fsprogs 1.47.1 (macports)
-  * ext4fuse 0.1.3 (macports)
+* OS: Slax 12.2.0 ISO (debian)
+* installed via apt
+  * binutils
+  * bison
+  * gawk
+  * gcc
+  * g++
+  * m4
+  * make
+  * patch
+  * texinfo
+  * vim
 
-```
-$ ./version-check.sh 
-ERROR: Coreutils is TOO OLD (2.3 detected, 8.1 or later required)
-OK:    Bash      3.2.57 >= 3.2
-OK:    Binutils         >= 2.13.1
-ERROR: Bison     is TOO OLD (2.3 detected, 2.7 or later required)
-OK:    Diffutils        >= 2.8.1
-OK:    Findutils        >= 4.2.31
-OK:    Gawk      5.3.1  >= 4.0.1
-OK:    GCC       16.0.0 >= 5.2
-OK:    GCC (C++) 16.0.0 >= 5.2
-OK:    Grep      2.6.0  >= 2.5.1a
-OK:    Gzip      448.0.3 >= 1.3.12
-ERROR: M4        is TOO OLD (1.4.6 detected, 1.4.10 or later required)
-ERROR: Make      is TOO OLD (3.81 detected, 4.0 or later required)
-ERROR: Patch     is TOO OLD (2.0 detected, 2.5.4 or later required)
-OK:    Perl      5.34.1 >= 5.8.8
-OK:    Python    3.9.6  >= 3.4
-OK:    Sed              >= 4.1.5
-OK:    Tar       3.5.3  >= 1.22
-OK:    Texinfo   7.1    >= 5.0
-OK:    Xz        5.6.3  >= 5.0.0
-ERROR: Linux Kernel does NOT support UNIX 98 PTY
-Aliases:
-ERROR: awk  is NOT GNU
-OK:    yacc is Bison
-OK:    sh   is Bash
-Compiler check:
-OK:    g++ works
-./version-check.sh: line 86: nproc: command not found
-ERROR: nproc is not available or it produces empty output
+```sh
+apt update && \
+apt -y install binutils bison gawk gcc g++ \
+  git gparted m4 make patch texinfo vim && \
+apt clean all
+savechanges slax-lfs.sb
+genslaxiso slax-lfs.iso slax-lfs.sb
 ```
