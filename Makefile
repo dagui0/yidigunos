@@ -8,12 +8,12 @@ include config.mk
 usage:
 	@echo "usage: make { phase1 | phase2 | phase3 | reset-lfs }"
 
-download:
+src-download:
 	cd $(DISTDIR) && \
 	wget --input-file=$(DISTDIR)/wget-list-sysv --continue \
 		--directory-prefix=$(DISTDIR)
 
-checksum:
+src-checksum:
 	cd $(DISTDIR) && \
 	md5sum -c $(DISTDIR)/md5sums
 

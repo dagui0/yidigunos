@@ -25,8 +25,8 @@ binutils-build/Makefile: $(BINUTILS_SRC)
 	$</configure \
 	--prefix=$(TOOLS) \
 	--with-sysroot=$(LFS) \
-	--host=`$</config.guess` \
 	--build=`$</config.guess` \
+	--host=`$</config.guess` \
 	--target=$(LFS_TGT) \
 	--disable-nls \
 	--enable-gprofng=no \
@@ -88,7 +88,7 @@ glibc: gcc linux-headers glibc-build/glibc-test.out
 glibc-build/glibc-test.out: $(LFS)/usr/lib/libc.a $(LFS)/lib64/ld-linux-x86-64.so.2
 	cd glibc-build && \
 	echo 'int main(){}' | $(LFS_TGT)-gcc -xc - -o glibc-test.out && \
-	readelf -l glibc-test.out | grep ld-linux | \
+	$(READELF) -l glibc-test.out | grep ld-linux | \
 		grep -q 'Requesting program interpreter: /lib64/ld-linux-x86-64.so.2' \
 		|| { rm -f glibc-test.out; echo "glibc test failed" 1>&2; }
 $(LFS)/usr/lib/libc.a: glibc-build/libc.a
@@ -103,8 +103,8 @@ glibc-build/Makefile: $(GLIBC_SRC) glibc-build/configparms $(LFS)/usr/include/li
 	cd glibc-build && \
 	$</configure \
 	--prefix=/usr \
-	--host=$(LFS_TGT) \
 	--build=`$(GLIBC_SRC)/scripts/config.guess` \
+	--host=$(LFS_TGT) \
 	--enable-kernel=$(GLIBC_MIN_KERNEL) \
 	--with-headers=$(LFS)/usr/include \
 	--disable-nscd \
@@ -140,8 +140,8 @@ libstdc++-build/Makefile: $(GCC_SRC) $(LFS)/usr/lib/libc.a
 	mkdir -p libstdc++-build && \
 	cd libstdc++-build && \
 	$</libstdc++-v3/configure \
-	--host=$(LFS_TGT) \
 	--build=`$</config.guess` \
+	--host=$(LFS_TGT) \
 	--prefix=/usr \
 	--disable-multilib \
 	--disable-nls \
