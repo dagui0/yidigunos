@@ -39,10 +39,123 @@
   * vim
 
 ```sh
-apt update && \
-apt -y install binutils bison gawk gcc g++ \
-  git gparted m4 make patch texinfo vim && \
-apt clean all
-savechanges slax-lfs.sb
-genslaxiso slax-lfs.iso slax-lfs.sb
+sudo apt update && \
+sudo apt -y install binutils bison gawk gcc g++ git gparted m4 make patch texinfo vim wget && \
+sudo apt clean all
+```
+
+### Build Phase 1
+
+```sh
+#!/bin/bash -v
+
+cd $LFS/sources/phase1
+
+(cd binutils && \
+../../binutils-2.43.1/configure \
+--prefix=/tools \
+--with-sysroot=$LFS \
+--target=$LFS_TGT \
+--disable-nls \
+--enable-gprofng=no \
+--disable-werror \
+--enable-new-dtags \
+--enable-default-hash-style-gnu && \
+make && \
+make install)
+
+(cd gmp && \
+../../gmp-6.3.0/configure \
+--prefix=/tools \
+--disable-shared \
+--enable-static && \
+make && \
+make install)
+
+(cd mpfr && \
+../../mpfr-4.2.1/configure \
+--prefix=/tools \
+--with-gmp=/tools \
+--disable-shared \
+--enable-static && \
+make && \
+make install)
+
+(cd mpc && \
+../../mpc-1.3.1/configure \
+--prefix=/tools \
+--with-gmp=/tools \
+--with-mpfr=/tools \
+--disable-shared \
+--enable-static && \
+make && \
+make install)
+
+(cd gcc && \
+../../gcc-14.2.0/configure \
+--prefix=/tools \
+--target=$LFS_TGT \
+--with-glibc-version=2.40 \
+--with-sysroot=$LFS \
+--with-newlib \
+--without-headers \
+--enable-default-pie \
+--enable-default-ssp \
+--disable-nls \
+--disable-shared \
+--disable-multilib \
+--disable-threads \
+--disable-libatomic \
+--disable-libgomp \
+--disable-libquadmath \
+--disable-libssp \
+--disable-libvtv \
+--disable-libstdcxx \
+--with-gmp=/tools \
+--with-mpc=/tools \
+--with-mpfr=/tools \
+--enable-languages=c,c++ && \
+make &&
+make install)
+
+(cd $LFS/sources/gcc-14.2.0 && \
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+  `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include/limits.h
+)
+
+(cd glibc && \
+../../glibc-2.40/configure \
+--prefix=/usr \
+--host=$LFS_TGT \
+--build=$(../../glibc-2.40/scripts/config.guess) \
+--enable-kernel=4.19 \
+--with-headers=$LFS/usr/include \
+--disable-nscd \
+libc_cv_slibdir=/usr/lib && \
+make && \
+make DESTDIR=$LFS install && \
+sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd)
+
+(cd libstdc++ && \
+../../gcc-14.2.0/libstdc++-v3/configure \
+--prefix=/usr \
+--host=$LFS_TGT \
+--build=$(../../gcc-14.2.0/config.guess) \
+--disable-multilib \
+--disable-nls \
+--disable-libstdcxx-pch \
+--with-gxx-include-dir=/tools/$LFS_TGT/include/c++/14.2.0 && \
+make && \
+make DESTDIR=$LFS install && \
+rm -fv $LFS/usr/lib/lib{stdc++{,exp,fs},supc++}.la)
+```
+
+### Build Phase 2
+
+```sh
+#!/bin/sh
+
+cd $LFS/sources/phase1
+
+
 ```
