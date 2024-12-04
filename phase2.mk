@@ -1,3 +1,7 @@
+#
+# Phase 2:
+#  build cross-toolchain
+#
 include ../config.mk
 
 .PHONY: phase2 clean extract \

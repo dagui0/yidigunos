@@ -5,7 +5,7 @@
 # in ~lfs/.bashrc (section 4.4) as well.
 
 LC_ALL=C 
-#PATH=/usr/bin:/bin
+PATH=/usr/bin:/bin
 
 bail() { echo "FATAL: $1"; exit 1; }
 grep --version > /dev/null 2> /dev/null || bail "grep does not work"
@@ -23,7 +23,7 @@ ver_check()
    then 
      printf "OK:    %-9s %-6s >= $3\n" "$1" "$v"; return 0;
    else 
-     printf "ERROR: %-9s is TOO OLD (%s detected, $3 or later required)\n" "$1" "$v"; 
+     printf "ERROR: %-9s is TOO OLD ($3 or later required)\n" "$1"; 
      return 1; 
    fi
 }
@@ -41,7 +41,7 @@ ver_kernel()
 }
 
 # Coreutils first because --version-sort needs Coreutils >= 7.0
-ver_check Coreutils      sort     8.1 # || bail "Coreutils too old, stop"
+ver_check Coreutils      sort     8.1 || bail "Coreutils too old, stop"
 ver_check Bash           bash     3.2
 ver_check Binutils       ld       2.13.1
 ver_check Bison          bison    2.7

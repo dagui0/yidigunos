@@ -1,9 +1,14 @@
-LFS		= /Users/dagui/mnt/lfs
-LFS_TGT		= x86_64-yidigun-linux-gnu
+LFS		= /mnt/lfs
+LFS_DISPNM	= Yidigun OS
+LFS_NAME	= yidigunos
+LFS_TGT		= x86_64-$(LFS_NAME)-linux-gnu
 TOOLS		= $(LFS)/tools
 
-BUILD_DIR	= /Users/dagui/src/dagui0/yidigunos
-SRCDIR		= $(BUILD_DIR)/build/src
-DISTDIR		= $(BUILD_DIR)/build/dist
+LFS_USER	= dagui
+BUILD_DIR	= /home/$(LFS_USER)
+PATCH_DIR	= $(BUILD_DIR)/patch
+SRC_DIR		= $(BUILD_DIR)/src
+DIST_DIR	= $(BUILD_DIR)/dist
 
-READELF		= /opt/local/bin/greadelf
+# tools
+READELF		= /usr/bin/readelf
