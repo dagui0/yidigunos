@@ -1,6 +1,5 @@
 services:
   buildhost:
-    env_file: ./docker-compose.env
     container_name: yosbuild
     hostname: yosbuild
     build:
