@@ -1,17 +1,17 @@
 include config.mk
-.PHONY: version-check init-lfs reset-lfs download \
+.PHONY: version-check init-lfs reset-lfs \
+	dist-download dist-checksum src-clean \
 	phase1 phase1-clean \
 	phase2 phase2-clean \
-	phase3 phase3-clean \
-	dist-download dist-checksum \
-	src-extract src-clean
+	phase3 phase3-clean
 
 usage:
 	@echo; \
 	echo "***** LFS Makefile for $(LFS_DISPNM) *****"; \
 	echo; \
 	echo "usage:"; \
-	echo "   make { init-lfs | reset-lfs | dist-download | dist-checksum" ; \
+	echo "   make { version-check | init-lfs | reset-lfs" ; \
+	echo "          | dist-download | dist-checksum | src-clean"; \
 	echo "          | phase1 | phase1-clean | phase2 | phase2-clean"; \
 	echo "          | phase3 | phase3-clean }"; \
 	echo; \
@@ -20,18 +20,28 @@ usage:
 	echo " - LFS_DISPNM = $(LFS_DISPNM)"; \
 	echo " - LFS_NAME   = $(LFS_NAME)"; \
 	echo " - LFS_TGT    = $(LFS_TGT)"; \
+	echo " - BUILD_DIR  = $(BUILD_DIR)"; \
+	echo " - SRC_DIR    = $(SRC_DIR)"; \
+	echo " - DIST_DIR   = $(DIST_DIR)"; \
 	echo
 
 download: dist-download dist-checksum
 
+DIST_LIST	= https://www.linuxfromscratch.org/lfs/view/12.2/wget-list-sysv
+DIST_MD5SUM	= https://www.linuxfromscratch.org/lfs/view/12.2/md5sums
+
 dist-download:
 	mkdir -p $(DIST_DIR) && \
-	wget --input-file=$(BUILD_DIR)/bin/wget-list-sysv --continue \
+	cd $(DIST_DIR) && \
+	wget $(DIST_LIST) && \
+	wget --input-file=$(DIST_DIR)/wget-list-sysv --continue \
 		--directory-prefix=$(DIST_DIR)
 
 dist-checksum:
+	mkdir -p $(DIST_DIR) && \
 	cd $(DIST_DIR) && \
-	md5sum -c $(BUILD_DIR)/bin/md5sums
+	wget $(DIST_MD5SUM) && \
+	md5sum -c $(DIST_DIR)/md5sums
 
 src-clean:
 	rm -rf $(SRC_DIR)/*

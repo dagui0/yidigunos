@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# target system mount point
-LFS=/mnt/lfs
-
-# target system triplet
-LFS_TGT=x86_64-yidigunos-linux-gnu
-
 # turns off bash's hash function. PATH will not cached.
 set +h
 

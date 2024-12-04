@@ -1,22 +1,24 @@
 services:
   buildhost:
+    env_file: ./docker-compose.env
     container_name: yosbuild
     hostname: yosbuild
-    env_file:
-      - docker-compose.env
     build:
       context: ./docker
       args:
         LFS_UID: $LFS_UID
         LFS_GID: $LFS_GID
         LFS_USER: $LFS_USER
+        BUILD_DIR: $BUILD_DIR
     volumes:
       - yos-lfs:/mnt/lfs
-      - yos-build:/home/$LFS_USER
-      - ./Makefile:/home/$LFS_USER/Makefile:ro
-      - ./config.mk:/home/$LFS_USER/config.mk:ro
-      - ./makefiles:/home/$LFS_USER/makefiles:ro
-      - ./patch:/home/$LFS_USER/patch:ro
+      - yos-build:$BUILD_DIR
+      - ./.bashrc:$BUILD_DIR/.bashrc:ro
+      - ./.bash_profile:$BUILD_DIR/.bash_profile:ro
+      - ./Makefile:$BUILD_DIR/Makefile:ro
+      - ./config.mk:$BUILD_DIR/config.mk:ro
+      - ./makefiles:$BUILD_DIR/makefiles:ro
+      - ./patch:$BUILD_DIR/patch:ro
 
 volumes:
   yos-lfs:

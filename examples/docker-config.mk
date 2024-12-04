@@ -6,7 +6,6 @@ TOOLS		= $(LFS)/tools
 
 LFS_USER	= lfsuser
 BUILD_DIR	= /home/$(LFS_USER)
-PATCH_DIR	= $(BUILD_DIR)/patch
 SRC_DIR		= $(BUILD_DIR)/src
 DIST_DIR	= $(BUILD_DIR)/dist
 
