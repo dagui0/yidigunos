@@ -4,7 +4,7 @@ LFS_NAME	= yidigunos
 LFS_TGT		= x86_64-$(LFS_NAME)-linux-gnu
 TOOLS		= $(LFS)/tools
 
-LFS_USER	= dagui
+LFS_USER	= lfsuser
 BUILD_DIR	= /home/$(LFS_USER)
 PATCH_DIR	= $(BUILD_DIR)/patch
 SRC_DIR		= $(BUILD_DIR)/src

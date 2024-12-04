@@ -1,9 +1,8 @@
 .DS_Store
-!phase1/Makefile
-!phase2/Makefile
-!phase3/Makefile
-dist/*
-src/*
-phase1/*
-phase2/*
-phase3/*
+/config.mk
+/docker-compose.env
+/dist/*
+/src/*
+/phase1/*
+/phase2/*
+/phase3/*

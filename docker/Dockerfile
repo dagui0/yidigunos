@@ -10,11 +10,12 @@ RUN apt-get update && \
     apt-get clean all && \
     mv /bin/sh /bin/sh.orig && \
     ln -s bash /bin/sh && \
-    useradd -M -d /home/$LFS_USER -s /bin/bash \
+    useradd -m -d /home/$LFS_USER -k none -s /bin/bash \
             -u $LFS_UID -g $LFS_GID $LFS_USER && \
     echo "${LFS_USER} ALL=NOPASSWD: ALL" >/etc/sudoers.d/lfs_user && \
     chmod 0440 /etc/sudoers.d/lfs_user
 COPY docker-entrypoint.sh /
+COPY .bashrc .bash_profile /home/$LFS_USER
 
 USER $LFS_UID:$LFS_GID
 WORKDIR /home/$LFS_USER

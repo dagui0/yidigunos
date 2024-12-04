@@ -1,5 +1,5 @@
 include config.mk
-.PHONY: reset-lfs init-lfs download \
+.PHONY: version-check init-lfs reset-lfs download \
 	phase1 phase1-clean \
 	phase2 phase2-clean \
 	phase3 phase3-clean \
@@ -43,6 +43,9 @@ phase1:
 phase1-clean:
 	mkdir -p phase1 && \
 	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/phase1.mk clean
+
+version-check:
+	$(BUILD_DIR)/bin/version-check.sh
 
 init-lfs:
 	mkdir -p $(LFS) $(LFS)/tools \

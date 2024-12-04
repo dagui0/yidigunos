@@ -2,25 +2,21 @@ services:
   buildhost:
     container_name: yosbuild
     hostname: yosbuild
+    env_file:
+      - docker-compose.env
     build:
       context: ./docker
       args:
-        LFS_UID: 501
-        LFS_GID: 20
-        LFS_USER: dagui
+        LFS_UID: $LFS_UID
+        LFS_GID: $LFS_GID
+        LFS_USER: $LFS_USER
     volumes:
       - yos-lfs:/mnt/lfs
-      - yos-build:/home/dagui
-      - ./bashrc:/home/dagui/.bashrc:ro
-      - ./bash_profile:/home/dagui/.bash_profile:ro
-      - ./bin:/home/dagui/bin:ro
-      - ./Makefile:/home/dagui/Makefile:ro
-      - ./config.mk:/home/dagui/config.mk:ro
-      - ./sources.mk:/home/dagui/sources.mk:ro
-      - ./phase1.mk:/home/dagui/phase1.mk:ro
-      - ./phase2.mk:/home/dagui/phase2.mk:ro
-      - ./phase3.mk:/home/dagui/phase3.mk:ro
-      - ./patch:/home/dagui/patch:ro
+      - yos-build:/home/$LFS_USER
+      - ./Makefile:/home/$LFS_USER/Makefile:ro
+      - ./config.mk:/home/$LFS_USER/config.mk:ro
+      - ./makefiles:/home/$LFS_USER/makefiles:ro
+      - ./patch:/home/$LFS_USER/patch:ro
 
 volumes:
   yos-lfs:
