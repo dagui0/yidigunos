@@ -12,7 +12,7 @@ phase1: binutils gcc linux-headers glibc libstdc++
 
 clean: binutils-clean gcc-clean glibc-clean libstdc++-clean
 
-include ../sources.mk
+include $(BUILD_DIR)/scripts/sources.mk
 extract: $(BINUTILS_SRC) $(GCC_SRC) $(GMP_SRC) $(MPFR_SRC) $(MPC_SRC) \
 	$(LINUX_SRC) $(GLIBC_SRC)
 

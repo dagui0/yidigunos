@@ -20,7 +20,7 @@ clean: m4-clean ncurses-clean bash-clean coreutils-clean diffutils-clean \
 	make-clean patch-clean sed-clean tar-clean xz-clean \
 	binutils-clean gcc gcc-clean
 
-include ../sources.mk
+include $(BUILD_DIR)/scripts/sources.mk
 extract: $(M4_SRC) $(NCURSES_SRC) $(BASH_SRC) $(COREUTILS_SRC) \
 	$(DIFFUTILS_SRC) $(FILE_SRC) $(FINDUTILS_SRC) $(GAWK_SRC) \
 	$(GREP_SRC) $(GZIP_SRC) $(MAKE_SRC) $(PATCH_SRC) $(SED_SRC) \

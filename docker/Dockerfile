@@ -7,7 +7,7 @@ ARG BUILD_DIR
 
 RUN apt-get update && \
     apt-get -y install binutils bison bzip2 gawk gcc g++ \
-        git gzip m4 make patch psmisc python3 sudo texinfo vim wget xz-utils && \
+        git gzip m4 make patch procps python3 sudo texinfo vim wget xz-utils && \
     apt-get clean all && \
     mv /bin/sh /bin/sh.orig && \
     ln -s bash /bin/sh && \

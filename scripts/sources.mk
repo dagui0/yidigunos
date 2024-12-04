@@ -3,9 +3,9 @@ GLIBC_VERSION		= 2.40
 GLIBC_MIN_KERNEL	= 4.19
 
 COREUTILS_PATCHES	= $(DIST_DIR)/coreutils-9.5-i18n-2.patch
-GCC_PATCHES		= $(PATCH_DIR)/gcc-14.2.0-lfs_layout.patch
+GCC_PATCHES		= $(BUILD_DIR)/patch/gcc-14.2.0-lfs_layout.patch
 GLIBC_PATCHES		= $(DIST_DIR)/glibc-$(GLIBC_VERSION)-fhs-1.patch
-NCURSES_PATCHES		= $(PATCH_DIR)/ncurses-6.5-gawk.patch
+NCURSES_PATCHES		= $(BUILD_DIR)/patch/ncurses-6.5-gawk.patch
 
 BINUTILS_SRC		= $(SRC_DIR)/binutils-2.43.1
 BINUTILS_DIST		= $(DIST_DIR)/binutils-2.43.1.tar.xz

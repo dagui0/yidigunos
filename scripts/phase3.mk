@@ -10,6 +10,6 @@ phase2:
 
 clean:
 
-include ../sources.mk
+include $(BUILD_DIR)/scripts/sources.mk
 extract:
 

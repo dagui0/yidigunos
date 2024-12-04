@@ -48,14 +48,14 @@ src-clean:
 
 phase1:
 	mkdir -p phase1 && \
-	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/phase1.mk phase1
+	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/scripts/phase1.mk phase1
 
 phase1-clean:
 	mkdir -p phase1 && \
-	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/phase1.mk clean
+	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/scripts/phase1.mk clean
 
 version-check:
-	$(BUILD_DIR)/bin/version-check.sh
+	$(BUILD_DIR)/scripts/version-check.sh
 
 init-lfs:
 	mkdir -p $(LFS) $(LFS)/tools \

@@ -1,5 +1,13 @@
 #!/bin/sh
 
+if [ ! -f $HOME/.env ]; then
+    echo "\$HOME/.env is not found" >&2
+    exit 1
+fi
+. $HOME/.env
+export LFS LFS_DISPNM LFS_NAME LFS_TGT TOOLS LFS_UID \
+    LFS_GID LFS_USER BUILD_DIR SRC_DIR DIST_DIR
+
 # turns off bash's hash function. PATH will not cached.
 set +h
 

@@ -14,9 +14,10 @@ services:
       - yos-build:$BUILD_DIR
       - ./.bashrc:$BUILD_DIR/.bashrc:ro
       - ./.bash_profile:$BUILD_DIR/.bash_profile:ro
+      - ./.env:$BUILD_DIR/.env
       - ./Makefile:$BUILD_DIR/Makefile:ro
       - ./config.mk:$BUILD_DIR/config.mk:ro
-      - ./makefiles:$BUILD_DIR/makefiles:ro
+      - ./scripts:$BUILD_DIR/scripts:ro
       - ./patch:$BUILD_DIR/patch:ro
 
 volumes:

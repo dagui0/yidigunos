@@ -1,0 +1,11 @@
+diff -Nuar gcc-14.2.0.orig/gcc/config/i386/t-linux64 gcc-14.2.0/gcc/config/i386/t-linux64
+--- gcc-14.2.0.orig/gcc/config/i386/t-linux64	2024-08-01 08:17:14.000000000 +0000
++++ gcc-14.2.0/gcc/config/i386/t-linux64	2024-12-04 21:31:42.362934472 +0000
+@@ -33,6 +33,6 @@
+ comma=,
+ MULTILIB_OPTIONS    = $(subst $(comma),/,$(TM_MULTILIB_CONFIG))
+ MULTILIB_DIRNAMES   = $(patsubst m%, %, $(subst /, ,$(MULTILIB_OPTIONS)))
+-MULTILIB_OSDIRNAMES = m64=../lib64$(call if_multiarch,:x86_64-linux-gnu)
++MULTILIB_OSDIRNAMES = m64=../lib$(call if_multiarch,:x86_64-linux-gnu)
+ MULTILIB_OSDIRNAMES+= m32=$(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)$(call if_multiarch,:i386-linux-gnu)
+ MULTILIB_OSDIRNAMES+= mx32=../libx32$(call if_multiarch,:x86_64-linux-gnux32)
