@@ -6,12 +6,13 @@ ARG LFS_USER
 ARG BUILD_DIR
 
 RUN apt-get update && \
-    apt-get -y install binutils bison bzip2 gawk gcc g++ \
-        git gzip m4 make patch procps python3 sudo texinfo vim wget xz-utils && \
+    apt-get -y install automake binutils bison bzip2 gawk gcc g++ \
+        git gzip help2man m4 make patch procps python3 sudo texinfo vim \
+        wget xz-utils && \
     apt-get clean all && \
     mv /bin/sh /bin/sh.orig && \
-    ln -s bash /bin/sh && \
-    useradd -M -d $BUILD_DIR -s /bin/bash \
+    ln -s bash /bin/sh
+RUN useradd -M -d $BUILD_DIR -s /bin/bash \
             -u $LFS_UID -g $LFS_GID $LFS_USER && \
     echo "${LFS_USER} ALL=NOPASSWD: ALL" >/etc/sudoers.d/lfsuser && \
     chmod 0440 /etc/sudoers.d/lfsuser

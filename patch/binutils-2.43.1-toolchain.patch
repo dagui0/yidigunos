@@ -1,0 +1,12 @@
+diff -Nuar binutils-2.43.1.orig/ltmain.sh binutils-2.43.1/ltmain.sh
+--- binutils-2.43.1.orig/ltmain.sh	2024-08-16 23:00:00.000000000 +0000
++++ binutils-2.43.1/ltmain.sh	2024-12-05 14:59:39.110202423 +0000
+@@ -6006,7 +6006,7 @@
+ 	      if test -n "$inst_prefix_dir"; then
+ 		case $libdir in
+ 		  [\\/]*)
+-		    add_dir="$add_dir -L$inst_prefix_dir$libdir"
++		    add_dir="-L$inst_prefix_dir$libdir"
+ 		    ;;
+ 		esac
+ 	      fi

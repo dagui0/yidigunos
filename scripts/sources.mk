@@ -2,10 +2,11 @@ GCC_VERSION		= 14.2.0
 GLIBC_VERSION		= 2.40
 GLIBC_MIN_KERNEL	= 4.19
 
-COREUTILS_PATCHES	= $(DIST_DIR)/coreutils-9.5-i18n-2.patch
-GCC_PATCHES		= $(BUILD_DIR)/patch/gcc-14.2.0-lfs_layout.patch
+BINUTILS_TOOLCHAIN_PATCH= $(BUILD_DIR)/patch/binutils-2.43.1-toolchain.patch
+COREUTILS_I18N_PATCH	= $(DIST_DIR)/coreutils-9.5-i18n-2.patch
+GCC_PATCHES		= $(BUILD_DIR)/patch/gcc-14.2.0-lfs.patch
 GLIBC_PATCHES		= $(DIST_DIR)/glibc-$(GLIBC_VERSION)-fhs-1.patch
-NCURSES_PATCHES		= $(BUILD_DIR)/patch/ncurses-6.5-gawk.patch
+NCURSES_PATCHES		= $(BUILD_DIR)/patch/ncurses-6.5-lfs.patch
 
 BINUTILS_SRC		= $(SRC_DIR)/binutils-2.43.1
 BINUTILS_DIST		= $(DIST_DIR)/binutils-2.43.1.tar.xz
@@ -64,6 +65,10 @@ $(BINUTILS_SRC): $(BINUTILS_DIST) $(SRC_DIR)
 		echo Extracting `basename $<` ...; \
 		tar xf $<; \
 	fi
+$(BINUTILS_SRC)/toolchain-patched: $(BINUTILS_SRC) $(BINUTILS_TOOLCHAIN_PATCH)
+	cd $(BINUTILS_SRC) && \
+	patch -Ntp1 -i $(BINUTILS_TOOLCHAIN_PATCH) && \
+	touch $@
 $(GCC_SRC): $(GCC_DIST) $(SRC_DIR)
 	@mkdir -p $(SRC_DIR) && \
 	cd $(SRC_DIR); \
@@ -71,10 +76,12 @@ $(GCC_SRC): $(GCC_DIST) $(SRC_DIR)
 		echo Extracting `basename $<` ...; \
 		tar xf $<; \
 		cd $@ && \
-		for p in $(GCC_PATCHES); do \
-			echo Applying patch $$p...; \
-			patch -Np1 -i $$p || break; \
-		done; \
+		if [ -n "$(GCC_PATCHES)" ]; then \
+			for p in $(GCC_PATCHES); do \
+				echo Applying patch $$p...; \
+				patch -Ntp1 -i $$p || break; \
+			done; \
+		fi; \
 	fi
 $(GMP_SRC): $(GMP_DIST) $(GCC_SRC) $(SRC_DIR)
 	@mkdir -p $(SRC_DIR) && \
@@ -114,10 +121,12 @@ $(GLIBC_SRC): $(GLIBC_DIST) $(GLIBC_PATCHES) $(SRC_DIR)
 		echo Extracting `basename $<` ...; \
 		tar xf $< && \
 		cd $@ && \
-		for p in $(GLIBC_PATCHES); do \
-			echo Applying patch $$p...; \
-			patch -Np1 -i $$p || break; \
-		done; \
+		if [ -n "$(GLIBC_PATCHES)" ]; then \
+			for p in $(GLIBC_PATCHES); do \
+				echo Applying patch $$p...; \
+				patch -Ntp1 -i $$p || break; \
+			done; \
+		fi; \
 	fi
 $(M4_SRC): $(M4_DIST) $(SRC_DIR)
 	@mkdir -p $(SRC_DIR) && \
@@ -133,10 +142,12 @@ $(NCURSES_SRC): $(NCURSES_DIST) $(SRC_DIR)
 		echo Extracting `basename $<` ...; \
 		tar xf $<; \
 		cd $@ && \
-		for p in $(NCURSES_PATCHES); do \
-			echo Applying patch $$p...; \
-			patch -Np1 -i $$p || break; \
-		done; \
+		if [ -n "$(NCURSES_PATCHES)" ]; then \
+			for p in $(NCURSES_PATCHES); do \
+				echo Applying patch $$p...; \
+				patch -Ntp1 -i $$p || break; \
+			done; \
+		fi; \
 	fi
 $(BASH_SRC): $(BASH_DIST) $(SRC_DIR)
 	@mkdir -p $(SRC_DIR) && \
@@ -152,11 +163,17 @@ $(COREUTILS_SRC): $(COREUTILS_DIST) $(SRC_DIR)
 		echo Extracting `basename $<` ...; \
 		tar xf $<; \
 		cd $@ && \
-		for p in $(COREUTILS_PATCHES); do \
-			echo Applying patch $$p...; \
-			patch -Np1 -i $$p || break; \
-		done; \
+		if [ -n "$(COREUTILS_PATCHES)" ]; then \
+			for p in $(COREUTILS_PATCHES); do \
+				echo Applying patch $$p...; \
+				patch -Ntp1 -i $$p || break; \
+			done; \
+		fi; \
 	fi
+$(COREUTILS_SRC)/i18n-patched: $(COREUTILS_SRC) $(COREUTILS_I18N_PATCH)
+	cd $(COREUTILS_SRC); \
+	patch -Ntp1 -i $(COREUTILS_I18N_PATCH) && \
+	touch $@
 $(DIFFUTILS_SRC): $(DIFFUTILS_DIST) $(SRC_DIR)
 	@mkdir -p $(SRC_DIR) && \
 	cd $(SRC_DIR); \

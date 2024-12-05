@@ -44,6 +44,10 @@ sudo apt -y install binutils bison gawk gcc g++ git gparted m4 make patch texinf
 sudo apt clean all
 ```
 
+coreutils
+  automake required
+  help2man required
+
 ### Build Phase 1
 
 ```sh

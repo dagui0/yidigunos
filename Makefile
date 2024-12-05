@@ -46,6 +46,15 @@ dist-checksum:
 src-clean:
 	rm -rf $(SRC_DIR)/*
 
+PHASE1_COMPLETE	= $(TOOLS)/bin/$(LFS_TGT)-ld $(TOOLS)/bin/$(LFS_TGT)-gcc \
+	$(LFS)/usr/include/linux/types.h $(LFS)/usr/lib/libc.a $(LFS)/usr/lib/libstdc++.a
+PHASE2_COMPLETE	= $(LFS)/usr/bin/m4 $(LFS)/usr/lib/libncursesw.so.6.5 \
+	$(LFS)/usr/bin/bash $(LFS)/usr/sbin/chroot $(LFS)/usr/bin/diff \
+	$(LFS)/usr/bin/file $(LFS)/usr/bin/find $(LFS)/usr/bin/gawk \
+	$(LFS)/usr/bin/grep $(LFS)/usr/bin/gzip $(LFS)/usr/bin/make \
+	$(LFS)/usr/bin/patch $(LFS)/usr/bin/sed $(LFS)/usr/bin/tar \
+	$(LFS)/usr/bin/xz $(LFS)/usr/bin/ld $(LFS)/usr/bin/gcc
+
 phase1:
 	mkdir -p phase1 && \
 	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/scripts/phase1.mk phase1
@@ -53,6 +62,14 @@ phase1:
 phase1-clean:
 	mkdir -p phase1 && \
 	$(MAKE) -j`nproc` -C phase1 -f $(BUILD_DIR)/scripts/phase1.mk clean
+
+phase2: $(PHASE1_COMPLETE)
+	mkdir -p phase2 && \
+	$(MAKE) -j`nproc` -C phase2 -f $(BUILD_DIR)/scripts/phase2.mk phase2
+
+phase2-clean:
+	mkdir -p phase2 && \
+	$(MAKE) -j`nproc` -C phase2 -f $(BUILD_DIR)/scripts/phase2.mk clean
 
 version-check:
 	$(BUILD_DIR)/scripts/version-check.sh

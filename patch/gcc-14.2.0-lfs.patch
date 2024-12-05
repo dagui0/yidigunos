@@ -1,0 +1,35 @@
+diff -Nuar gcc-14.2.0.orig/gcc/config/i386/t-linux64 gcc-14.2.0/gcc/config/i386/t-linux64
+--- gcc-14.2.0.orig/gcc/config/i386/t-linux64	2024-08-01 08:17:14.000000000 +0000
++++ gcc-14.2.0/gcc/config/i386/t-linux64	2024-12-04 21:31:42.362934472 +0000
+@@ -33,6 +33,6 @@
+ comma=,
+ MULTILIB_OPTIONS    = $(subst $(comma),/,$(TM_MULTILIB_CONFIG))
+ MULTILIB_DIRNAMES   = $(patsubst m%, %, $(subst /, ,$(MULTILIB_OPTIONS)))
+-MULTILIB_OSDIRNAMES = m64=../lib64$(call if_multiarch,:x86_64-linux-gnu)
++MULTILIB_OSDIRNAMES = m64=../lib$(call if_multiarch,:x86_64-linux-gnu)
+ MULTILIB_OSDIRNAMES+= m32=$(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)$(call if_multiarch,:i386-linux-gnu)
+ MULTILIB_OSDIRNAMES+= mx32=../libx32$(call if_multiarch,:x86_64-linux-gnux32)
+diff -Nuar gcc-14.2.0.orig/libgcc/Makefile.in gcc-14.2.0/libgcc/Makefile.in
+--- gcc-14.2.0.orig/libgcc/Makefile.in	2024-08-01 08:17:17.000000000 +0000
++++ gcc-14.2.0/libgcc/Makefile.in	2024-12-05 15:21:13.924159644 +0000
+@@ -49,7 +49,7 @@
+ unwind_header = @unwind_header@
+ md_unwind_header = @md_unwind_header@
+ sfp_machine_header = @sfp_machine_header@
+-thread_header = @thread_header@
++thread_header = gthr-posix.h
+ 
+ host_noncanonical = @host_noncanonical@
+ real_host_noncanonical = @real_host_noncanonical@
+diff -Nuar gcc-14.2.0.orig/libstdc++-v3/include/Makefile.in gcc-14.2.0/libstdc++-v3/include/Makefile.in
+--- gcc-14.2.0.orig/libstdc++-v3/include/Makefile.in	2024-08-01 08:17:18.000000000 +0000
++++ gcc-14.2.0/libstdc++-v3/include/Makefile.in	2024-12-05 15:21:13.925159644 +0000
+@@ -345,7 +345,7 @@
+ target_cpu = @target_cpu@
+ target_os = @target_os@
+ target_vendor = @target_vendor@
+-thread_header = @thread_header@
++thread_header = gthr-posix.h
+ tmake_file = @tmake_file@
+ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
